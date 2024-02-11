@@ -14,10 +14,10 @@ export default function SignIn({navigation, route} : any) {
 
     useEffect(() => {
         console.log("SignIn Page Call")
-        if (route.params.param_1 != undefined || route.params.param_2 != undefined) {
-            setParamA(route.params.param_1)
-            setParamB(route.params.param_2)
-        }
+        // if (route.params.param_1 != undefined || route.params.param_2 != undefined) {
+        //     // setParamA(route.params.param_1)
+        //     // setParamB(route.params.param_2)
+        // }
     }, []);
 
 
