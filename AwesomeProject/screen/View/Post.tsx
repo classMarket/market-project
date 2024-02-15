@@ -15,9 +15,9 @@ export default function Post({navigation, route} : any) {
 
 
     return (
-            <SafeAreaView style={styles.SafeAreaView}>
-                <Text style={styles.text}>등록 페이지</Text>
-            </SafeAreaView>
+        <SafeAreaView style={styles.SafeAreaView}>
+            <Text style={styles.text}>등록 페이지</Text>
+        </SafeAreaView>
     );
 }
 

@@ -12,7 +12,7 @@
    NativeModules,
  } from 'react-native';
  
- export default function Main({navigation} : any) {
+ export default function Home({navigation} : any) {
  
     const [sample_param_A, setSampleParamA] = useState('')
     const [sample_param_B, setSampleParamB] = useState('')
