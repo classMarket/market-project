@@ -19,7 +19,7 @@ function App() {
         }/>
         <Stack.Screen name="Tabs" component={BottomTab} options={
           {
-            // headerShown : false
+            headerShown : false
           }
         } />
       </Stack.Navigator>

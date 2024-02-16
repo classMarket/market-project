@@ -1,34 +1,38 @@
 import React, { useState, useEffect } from 'react';
-import { TouchableOpacity, Text, StyleSheet, SafeAreaView, Dimensions, Image, View } from 'react-native';
+import { TouchableOpacity, Text, StyleSheet, SafeAreaView, Dimensions, Image, View, Platform, StatusBar } from 'react-native';
 import  * as KakaoLogin from '@react-native-seoul/kakao-login';
 import { KakaoOAuthToken, login } from '@react-native-seoul/kakao-login';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
 
 export default function Main({navigation} : any) {
-
     const [result , setResult] = useState('')
 
-    const kakaoSignIn = () => {
-        KakaoLogin.login().then((result) => {
-            console.log("Login Success", JSON.stringify(result));
-            getProfile();
-        }).catch((error) => {
-            if (error.code === 'E_CANCELLED_OPERATION') {
-                console.log("Login Cancel", error.message);
-            } else {
-                console.log(`Login Fail(code:${error.code})`, error.message);
-            }
-        });
-    }
-    
     const signInWithKakao = async (): Promise<void> => {
         try {
             const token: KakaoOAuthToken = await login();
-            console.log(token)
-        } catch(error) {
-            console.log(error)
+            const userInfo = await KakaoLogin.getProfile();
+            const userAccessToken = await KakaoLogin.getAccessToken();
+            const userEmail = userInfo.email;
+            const userAge = userInfo.ageRange;
+            const userProfileImg = userInfo.profileImageUrl;
+            const userGender = userInfo.gender;
+            const userNickNmae = userInfo.nickname;
+            console.log('userEmail : ' + userEmail);
+            console.log('userAge : ' + userAge);
+            console.log('userProfileImg' + userProfileImg);
+            console.log('userGender' + userGender);
+            console.log('userNickNmae' + userNickNmae);
+            console.log('userAccessToken' + userAccessToken);
+
+            if (userAccessToken) {
+                navigation.navigate("Tabs");
+            }
+
+            setResult(JSON.stringify(token));
+        } catch (error) {
+          console.error(error);
         }
-        // setResult(JSON.stringify(token));
-      };
+    }
 
     const naverSignIn = () => {
 
@@ -37,21 +41,16 @@ export default function Main({navigation} : any) {
     const googleSignIn = () => {
 
     }
-      
-    const getProfile = () => {
-        KakaoLogin.getProfile().then((result) => {
-            console.log("GetProfile Success", JSON.stringify(result));
-        }).catch((error) => {
-            console.log(`GetProfile Fail(code:${error.code})`, error.message);
-        });
-    };
+
+    useEffect(() => {
+    }, []);
+
     
     return (
         <SafeAreaView style={styles.SafeAreaView}>
-            {/* <TouchableOpacity onPress={() => navigation.navigate("Tabs")}> */}
             <Image source={require('../../assets/loginTopImg.png')} style={styles.loginTopImg}/>
             <Image source={require('../../assets/loginMiddleImg.png')} style={styles.loginMiddleImg}/>
-            <Image source={require('../../assets/backgroundImg.png')} style={styles.backgroundImg}/>
+            <Image source={require('../../assets/backImg.png')} style={styles.backgroundImg}/>
             <View style={styles.btnStack}>
                 <TouchableOpacity onPress={signInWithKakao} style={styles.kakaoLoginBtn}>
                     <View style={styles.loginView}>
@@ -71,10 +70,37 @@ export default function Main({navigation} : any) {
                         <Text style={styles.text}>구글로  로그인</Text>
                     </View>
                 </TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate("Tabs")} style={styles.moveHomeBtn}>
+                    <View style={styles.loginView}>
+                        <Text style={styles.text}>홈 화면으로 이동</Text>
+                    </View>
+                </TouchableOpacity>
             </View>
         </SafeAreaView>
     );
+    
 };
+
+const FIGMA_WIDTH = 360
+const FIGMA_HEIGHT = 760
+const StatusBarHeight = getStatusBarHeight(true)
+
+const marginTop = (value : any) => {
+    const data = (( Dimensions.get('screen').height / FIGMA_HEIGHT) * value) + StatusBarHeight
+    return data
+}
+
+const width = (value : any) => {
+    const data = (( Dimensions.get('screen').width / FIGMA_WIDTH) * value)
+    console.log(Dimensions.get('screen').width + '/' + Dimensions.get('screen').height)
+    return data
+}
+
+const height = (value : any) => {
+    const data = (( Dimensions.get('screen').height / FIGMA_HEIGHT) * value)
+    return data
+}
+
 
 const styles = StyleSheet.create({
     SafeAreaView : {
@@ -85,18 +111,20 @@ const styles = StyleSheet.create({
     },
     loginTopImg : {
         position : 'absolute',
-        top : 200,
+        top :  marginTop(93),
         left : 21
     },
     loginMiddleImg : {
         position : 'absolute',
-        top : 300,
+        top : marginTop(198),
         right : 21
     },
     backgroundImg : {
         position : 'absolute',
+        width : width(400.74),
+        height : height(453.49),
         bottom : 0,
-        left : 0
+        left : -57,
     },
     btnStack : {
         position : 'absolute',
@@ -143,9 +171,23 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop : 10,
         borderRadius : 10,
-        
+    },
+    moveHomeBtn : {
+        width : Dimensions.get("window").width - 30,
+        height : 44,
+        textAlign: 'center',
+        backgroundColor : 'white',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius : 10,
+        marginTop : 10
+    },
+    moveHomeText : {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color : 'white',
+        marginTop : 10
     }
 
     
 });
-

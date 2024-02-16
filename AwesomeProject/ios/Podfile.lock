@@ -77,6 +77,16 @@ PODS:
     - KakaoSDKCommon (= 2.11.1)
     - KakaoSDKUser (= 2.11.1)
     - React
+  - KakaoSDK (2.11.1):
+    - KakaoSDKAuth (= 2.11.1)
+    - KakaoSDKCommon (= 2.11.1)
+    - KakaoSDKFriend (= 2.11.1)
+    - KakaoSDKNavi (= 2.11.1)
+    - KakaoSDKShare (= 2.11.1)
+    - KakaoSDKStory (= 2.11.1)
+    - KakaoSDKTalk (= 2.11.1)
+    - KakaoSDKTemplate (= 2.11.1)
+    - KakaoSDKUser (= 2.11.1)
   - KakaoSDKAuth (2.11.1):
     - KakaoSDKCommon (= 2.11.1)
   - KakaoSDKCommon (2.11.1):
@@ -85,6 +95,20 @@ PODS:
   - KakaoSDKCommon/Common (2.11.1)
   - KakaoSDKCommon/Network (2.11.1):
     - Alamofire (~> 5.1)
+    - KakaoSDKCommon/Common (= 2.11.1)
+  - KakaoSDKFriend (2.11.1):
+    - KakaoSDKUser (= 2.11.1)
+  - KakaoSDKNavi (2.11.1):
+    - KakaoSDKCommon/Common (= 2.11.1)
+  - KakaoSDKShare (2.11.1):
+    - KakaoSDKCommon (= 2.11.1)
+    - KakaoSDKTemplate (= 2.11.1)
+  - KakaoSDKStory (2.11.1):
+    - KakaoSDKUser (= 2.11.1)
+  - KakaoSDKTalk (2.11.1):
+    - KakaoSDKTemplate (= 2.11.1)
+    - KakaoSDKUser (= 2.11.1)
+  - KakaoSDKTemplate (2.11.1):
     - KakaoSDKCommon/Common (= 2.11.1)
   - KakaoSDKUser (2.11.1):
     - KakaoSDKAuth (= 2.11.1)
@@ -1176,6 +1200,7 @@ DEPENDENCIES:
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - hermes-engine (from `../node_modules/react-native/sdks/hermes-engine/hermes-engine.podspec`)
   - "kakao-login (from `../node_modules/@react-native-seoul/kakao-login`)"
+  - KakaoSDK
   - libevent (~> 2.1.12)
   - OpenSSL-Universal (= 1.1.1100)
   - RCT-Folly (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
@@ -1242,8 +1267,15 @@ SPEC REPOS:
     - Flipper-PeerTalk
     - FlipperKit
     - fmt
+    - KakaoSDK
     - KakaoSDKAuth
     - KakaoSDKCommon
+    - KakaoSDKFriend
+    - KakaoSDKNavi
+    - KakaoSDKShare
+    - KakaoSDKStory
+    - KakaoSDKTalk
+    - KakaoSDKTemplate
     - KakaoSDKUser
     - libevent
     - OpenSSL-Universal
@@ -1379,8 +1411,15 @@ SPEC CHECKSUMS:
   glog: c5d68082e772fa1c511173d6b30a9de2c05a69a2
   hermes-engine: b2669ce35fc4ac14f523b307aff8896799829fe2
   kakao-login: d3dad7a7bc1a3d187cedb4de83b1ec2e9b1cda30
+  KakaoSDK: ab3e070e19afb7218d6897b53c4b44d65a574005
   KakaoSDKAuth: bb2dfa7be30daa8403c9cfc8001aa6fde7a5b779
   KakaoSDKCommon: 555e1bb46595b842ded01cf7888cc17bbae4e113
+  KakaoSDKFriend: 51b432245bfd77006df4594efd6cb606c8970e86
+  KakaoSDKNavi: 695360dc4a673c1fc4e893c6afe9922e0accc8bd
+  KakaoSDKShare: 9752730ce3339536f9d7812eb70eccb87643e9a6
+  KakaoSDKStory: 0ea94b212c07579c12f2a4c64722667cef6ace84
+  KakaoSDKTalk: 504872e5b49e5ff104c65e37d54d2a8f04c606d3
+  KakaoSDKTemplate: f8ee0b33f649e436c1aaf2a3a6bd6aa3dcae2451
   KakaoSDKUser: 08c0a4f40bebdebdf948a9e3d0e44ed5c2754f99
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   OpenSSL-Universal: ebc357f1e6bc71fa463ccb2fe676756aff50e88c
@@ -1431,8 +1470,8 @@ SPEC CHECKSUMS:
   RNScreens: b582cb834dc4133307562e930e8fa914b8c04ef2
   RNVectorIcons: 210f910e834e3485af40693ad4615c1ec22fc02b
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
-  Yoga: 1b901a6d6eeba4e8a2e8f308f708691cdb5db312
+  Yoga: 64cd2a583ead952b0315d5135bf39e053ae9be70
 
-PODFILE CHECKSUM: dd955e311fc61508ad01ec75d68659091eaa4551
+PODFILE CHECKSUM: d18d8cb6670dfc5cc17a0c6c4deb5e003e1878b3
 
 COCOAPODS: 1.14.3

@@ -72,12 +72,6 @@
                   </TouchableOpacity>
                   <Text style={styles.resultFiled}>{sample_param_A}</Text>
                   <Text style={styles.resultFiled}>{sample_param_B}</Text>
-
-                  {/* 아래 Navigation Test 버튼 눌렀을 때 파라미터 두개 SignIn 페이지로 넘깁니다. */}
-                  {/* 파라미터는 GetTest, PostTest 를 통해서 세팅하는거로 해놓았습니다. */}
-                  <TouchableOpacity style={styles.nextBtn} onPress = {() => navigation.navigate("SignIn", {param_1 : sample_param_A, param_2 : sample_param_B})}>
-                      <Text style={styles.nextBtnText}>Navigation Test</Text>
-                  </TouchableOpacity>
               </View>
           </SafeAreaView>
     );
