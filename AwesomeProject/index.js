@@ -14,10 +14,20 @@ import Class from './screen/View/Class';
 import Post from './screen/View/Post';
 import Chat from './screen/View/Chat';
 import Profile from './screen/View/Profile';
+import ProfileDetail from './screen/View/profile/ProfileDetail';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
+const ProfileStack = () => (
+  <Stack.Navigator
+    screenOptions={{
+      headerShown: false,
+    }}>
+    <Stack.Screen name="프로필" component={Profile} />
+    <Stack.Screen name="프로필상세" component={ProfileDetail} />
+  </Stack.Navigator>
+);
 // 여기 부분에도 import한 파일에 맞춰서 스택 추가해주시면 됩니다.
 function App() {
   return (
@@ -114,8 +124,8 @@ function App() {
           }}
         />
         <Tab.Screen
-          name="프로필"
-          component={Profile}
+          name="프로필메인"
+          component={ProfileStack}
           options={{
             headerShown: false,
             tabBarLabel: ({focused, color}) => {
