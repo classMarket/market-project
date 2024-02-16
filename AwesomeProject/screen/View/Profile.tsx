@@ -18,8 +18,8 @@ function ProfileScreenHeader() {
       style={{
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginVertical: 17,
-        marginHorizontal: 21,
+        paddingVertical: 17,
+        paddingHorizontal: 21,
       }}>
       <View style={{flex: 1, alignItems: 'center'}}>
         <Text style={{fontSize: 16, fontWeight: '700'}}>내 프로필</Text>
@@ -31,7 +31,28 @@ function ProfileScreenHeader() {
   );
 }
 
-function ProfileSummary() {
+function ViewProfileButton({onPressHandler}: {onPressHandler: () => void}) {
+  return (
+    <TouchableOpacity
+      style={{
+        backgroundColor: '#E5E5E5',
+        borderRadius: 4,
+        paddingVertical: 4,
+        paddingHorizontal: 8,
+      }}
+      onPress={onPressHandler}>
+      <Text style={{fontSize: 12, lineHeight: 18}}>프로필 보기</Text>
+    </TouchableOpacity>
+  );
+}
+
+function ProfileSummary({
+  detailShown = false,
+  rightButton,
+}: {
+  detailShown?: boolean;
+  rightButton: ReactNode;
+}) {
   return (
     <View
       style={{
@@ -44,45 +65,43 @@ function ProfileSummary() {
             style={{width: 42, height: 42, borderRadius: 21, borderWidth: 1}}
           />
         </View>
-        <View style={{flex: 1, marginLeft: 11}}>
+        <View
+          style={{
+            flex: 1,
+            marginLeft: 11,
+            paddingVertical: detailShown ? 0 : 8,
+          }}>
           <Text style={{fontSize: 16, lineHeight: 24, fontWeight: '700'}}>
             닉네임
           </Text>
-          <View style={{flexDirection: 'row'}}>
-            <Text style={{fontSize: 12, lineHeight: 18, fontWeight: '400'}}>
-              평점 0.0
-            </Text>
-            <Text
-              style={{
-                fontSize: 12,
-                lineHeight: 18,
-                fontWeight: '400',
-                marginLeft: 7,
-              }}>
-              등록상품 3
-            </Text>
-            <Text
-              style={{
-                fontSize: 12,
-                lineHeight: 18,
-                fontWeight: '400',
-                marginLeft: 7,
-              }}>
-              모임활동 1
-            </Text>
-          </View>
+
+          {detailShown && (
+            <View style={{flexDirection: 'row'}}>
+              <Text style={{fontSize: 12, lineHeight: 18, fontWeight: '400'}}>
+                평점 0.0
+              </Text>
+              <Text
+                style={{
+                  fontSize: 12,
+                  lineHeight: 18,
+                  fontWeight: '400',
+                  marginLeft: 7,
+                }}>
+                등록상품 3
+              </Text>
+              <Text
+                style={{
+                  fontSize: 12,
+                  lineHeight: 18,
+                  fontWeight: '400',
+                  marginLeft: 7,
+                }}>
+                모임활동 1
+              </Text>
+            </View>
+          )}
         </View>
-        <View style={{marginTop: 7}}>
-          <View
-            style={{
-              backgroundColor: '#E5E5E5',
-              borderRadius: 4,
-              paddingVertical: 4,
-              paddingHorizontal: 8,
-            }}>
-            <Text style={{fontSize: 12, lineHeight: 18}}>프로필 보기</Text>
-          </View>
-        </View>
+        <View style={{marginTop: 7}}>{rightButton}</View>
       </View>
     </View>
   );
@@ -250,18 +269,25 @@ function BlankSpace({
   );
 }
 
-export default function Profile({_navigation, _route}: any) {
+export default function Profile({navigation, _route}: any) {
   const windowWidth = Dimensions.get('window').width;
 
   useEffect(() => {
     console.log('프로필 Page Call');
   }, []);
 
+  const goProfileDetail = () => {
+    navigation.navigate('프로필상세');
+  };
+
   return (
     <SafeAreaView style={styles.SafeAreaView}>
       <ProfileScreenHeader />
       <ScrollView style={{width: windowWidth}}>
-        <ProfileSummary />
+        <ProfileSummary
+          detailShown={true}
+          rightButton={<ViewProfileButton onPressHandler={goProfileDetail} />}
+        />
         <ProfileMyPoint />
         <ProfileSection title={'활동'}>
           <ProfileSectionLine />
@@ -335,3 +361,5 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
 });
+
+export {ProfileSummary, ProfileSectionLine};
