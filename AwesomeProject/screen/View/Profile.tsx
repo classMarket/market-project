@@ -260,7 +260,7 @@ export default function Profile({_navigation, _route}: any) {
   return (
     <SafeAreaView style={styles.SafeAreaView}>
       <ProfileScreenHeader />
-      <ScrollView style={[styles.scrollView, {width: windowWidth}]}>
+      <ScrollView style={{width: windowWidth}}>
         <ProfileSummary />
         <ProfileMyPoint />
         <ProfileSection title={'활동'}>
@@ -333,9 +333,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'white',
-  },
-  scrollView: {},
-  text: {
-    color: 'black',
   },
 });
