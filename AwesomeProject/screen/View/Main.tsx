@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { TouchableOpacity, Text, StyleSheet, SafeAreaView, Dimensions, Image, View, Platform, StatusBar } from 'react-native';
+import { TouchableOpacity, Text, StyleSheet, SafeAreaView, Dimensions, Image, View, Platform, StatusBar, Alert } from 'react-native';
 import  * as KakaoLogin from '@react-native-seoul/kakao-login';
 import { KakaoOAuthToken, login } from '@react-native-seoul/kakao-login';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
@@ -26,11 +26,17 @@ export default function Main({navigation} : any) {
 
             if (userAccessToken) {
                 navigation.navigate("Tabs");
+            } else {
+                Alert.alert('ERROR', '알 수 없는 이유로 로그인에 실패하였습니다.', [
+                    {text: 'OK'},
+                ]);
             }
 
             setResult(JSON.stringify(token));
         } catch (error) {
-          console.error(error);
+            Alert.alert('ERROR', '알 수 없는 이유로 로그인에 실패하였습니다.', [
+                {text: 'OK'},
+            ]);
         }
     }
 
