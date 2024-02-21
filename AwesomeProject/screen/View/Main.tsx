@@ -5,8 +5,7 @@ import { KakaoOAuthToken, login } from '@react-native-seoul/kakao-login';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 
 export default function Main({navigation} : any) {
-    const [result , setResult] = useState('')
-
+    
     const signInWithKakao = async (): Promise<void> => {
         try {
             const token: KakaoOAuthToken = await login();
@@ -31,8 +30,6 @@ export default function Main({navigation} : any) {
                     {text: 'OK'},
                 ]);
             }
-
-            setResult(JSON.stringify(token));
         } catch (error) {
             Alert.alert('ERROR', '알 수 없는 이유로 로그인에 실패하였습니다.', [
                 {text: 'OK'},
