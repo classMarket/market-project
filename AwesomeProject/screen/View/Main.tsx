@@ -40,6 +40,19 @@ export default function Main({navigation} : any) {
         }
     }
 
+    // const login = () => {
+    //     KakaoLogin.login().then((result) => {
+    //         console.log("Login Success", JSON.stringify(result));
+    //         // getProfile();
+    //     }).catch((error) => {
+    //         if (error.code === 'E_CANCELLED_OPERATION') {
+    //             console.log("Login Cancel", error.message);
+    //         } else {
+    //             console.log(`Login Fail(code:${error.code})`, error.message);
+    //         }
+    //     });
+    // };
+
     const naverSignIn = () => {
 
     }
