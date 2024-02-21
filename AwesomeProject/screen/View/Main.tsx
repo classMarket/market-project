@@ -5,8 +5,7 @@ import { KakaoOAuthToken, login } from '@react-native-seoul/kakao-login';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 
 export default function Main({navigation} : any) {
-    const [result , setResult] = useState('')
-
+    
     const signInWithKakao = async (): Promise<void> => {
         try {
             const token: KakaoOAuthToken = await login();
@@ -27,8 +26,6 @@ export default function Main({navigation} : any) {
             if (userAccessToken) {
                 navigation.navigate("Tabs");
             }
-
-            setResult(JSON.stringify(token));
         } catch (error) {
           console.error(error);
         }
