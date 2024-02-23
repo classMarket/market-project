@@ -3,9 +3,10 @@ import { TouchableOpacity, Text, StyleSheet, SafeAreaView, Dimensions, Image, Vi
 import  * as KakaoLogin from '@react-native-seoul/kakao-login';
 import { KakaoOAuthToken, login } from '@react-native-seoul/kakao-login';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
+import NaverLogin, { NaverLoginResponse, GetProfileResponse } from '@react-native-seoul/naver-login';
 
 export default function Main({navigation} : any) {
-    const [result , setResult] = useState('')
+    const [result , setResult] = useState('');
 
     const signInWithKakao = async (): Promise<void> => {
         try {
@@ -34,8 +35,32 @@ export default function Main({navigation} : any) {
         }
     }
 
-    const naverSignIn = () => {
+    const androidKeys = {
+        consumerKey: "RXWXkXCQzKJEQMy5rEdW",
+        consumerSecret: "omkincgN1v",
+        appName: "com.awesomeproject"
+    };
+      
+    const naverSignIn = async(props:any):Promise<void> => {
+        try{
+            const {failureResponse, successResponse} = await NaverLogin.login(props);
+            const token = successResponse;
+            const userAccessToken = token!.accessToken;
+            const userInfo = await NaverLogin.getProfile(userAccessToken);
+            const userEmail = userInfo.response.email;
+            const userAge = userInfo.response.birthyear;
+            const userProfileImg = userInfo.response.profile_image;
+            const userGender = userInfo.response.gender;
+            const userNickNmae = userInfo.response.nickname;
 
+            if (userAccessToken) {
+                navigation.navigate("Tabs");
+            }
+
+            setResult(JSON.stringify(token));
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     const googleSignIn = () => {
@@ -58,14 +83,14 @@ export default function Main({navigation} : any) {
                         <Text style={styles.text}>카카오로 로그인</Text>
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={naverSignIn} style={styles.naverLoginBtn}>
-                    <View style={styles.loginView}> 
+                <TouchableOpacity onPress={()=>naverSignIn(androidKeys)} style={styles.naverLoginBtn}>
+                    <View style={styles.loginView}>
                         <Image source={require('../../assets/NaverImg.png')} />
                         <Text style={styles.text}>네이버로  로그인</Text>
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={googleSignIn} style={styles.googleLoginBtn}>
-                    <View style={styles.loginView}> 
+                    <View style={styles.loginView}>
                         <Image source={require('../../assets/GoogleImg.png')} />
                         <Text style={styles.text}>구글로  로그인</Text>
                     </View>
