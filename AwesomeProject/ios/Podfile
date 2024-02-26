@@ -43,6 +43,7 @@ target 'AwesomeProject' do
   target 'AwesomeProjectTests' do
     inherit! :complete
     pod 'KakaoSDK'
+    pod 'naveridlogin-sdk-ios'
     # Pods for testing
   end
 
