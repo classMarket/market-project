@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { TouchableOpacity, Text, StyleSheet, SafeAreaView, Dimensions, Image, View, Platform, StatusBar } from 'react-native';
+import { TouchableOpacity, Text, StyleSheet, SafeAreaView, Dimensions, Image, View, Platform, StatusBar, Alert } from 'react-native';
 import  * as KakaoLogin from '@react-native-seoul/kakao-login';
 import { KakaoOAuthToken, login } from '@react-native-seoul/kakao-login';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import NaverLogin, { NaverLoginResponse, GetProfileResponse } from '@react-native-seoul/naver-login';
+import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-google-signin/google-signin';
 
 export default function Main({navigation} : any) {
     const [result , setResult] = useState('');
@@ -63,11 +64,35 @@ export default function Main({navigation} : any) {
         }
     }
 
-    const googleSignIn = () => {
-
+    async function signIn() {
+        try {
+            await GoogleSignin.hasPlayServices();
+            const userInfo = await GoogleSignin.signIn();
+            // setUserInfo(userInfo);
+            // 여기에 로그인 성공 시의 추가 작업을 수행할 수 있습니다.
+            console.log(userInfo)
+            } catch (error : any) {
+            if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+                // 사용자가 로그인을 취소한 경우
+                Alert.alert('로그인이 취소되었습니다.');
+            } else if (error.code === statusCodes.IN_PROGRESS) {
+                // 다른 로그인 과정이 진행 중인 경우
+                Alert.alert('로그인이 이미 진행 중입니다.');
+            } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+                // 플레이 서비스를 사용할 수 없는 경우
+                Alert.alert('Google Play 서비스를 사용할 수 없습니다.');
+            } else {
+                // 기타 오류
+                Alert.alert('로그인 중 오류가 발생했습니다.');
+                console.log(error);
+            }
+        }  
     }
 
     useEffect(() => {
+        GoogleSignin.configure({
+            webClientId: '1030905081792-uarc3glv0mfb4am4jr2qhn30b13lnmla.apps.googleusercontent.com'
+        });
     }, []);
 
     
@@ -89,7 +114,7 @@ export default function Main({navigation} : any) {
                         <Text style={styles.text}>네이버로  로그인</Text>
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={googleSignIn} style={styles.googleLoginBtn}>
+                <TouchableOpacity onPress={signIn} style={styles.googleLoginBtn}>
                     <View style={styles.loginView}>
                         <Image source={require('../../assets/GoogleImg.png')} />
                         <Text style={styles.text}>구글로  로그인</Text>

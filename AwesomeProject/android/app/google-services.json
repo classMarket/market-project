@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "1030905081792",
+    "project_id": "sideprojectmarket",
+    "storage_bucket": "sideprojectmarket.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1030905081792:android:b6789efe4cd80a2c07a225",
+        "android_client_info": {
+          "package_name": "com.JUGOBADA"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1030905081792-bp5q3elb03888ngv3tb40fgppupqv5rf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.JUGOBADA",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "1030905081792-uabl5b4lc380heie3datpae2v4h0uhen.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.JUGOBADA",
+            "certificate_hash": "aeff5988d26274a775704e1d1788b85106beb8ea"
+          }
+        },
+        {
+          "client_id": "1030905081792-uarc3glv0mfb4am4jr2qhn30b13lnmla.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBsuoysei7XPn8_Qm1ZuXmG0MS9wF_gHY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1030905081792-uarc3glv0mfb4am4jr2qhn30b13lnmla.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1030905081792-8l0jk7o1rv5t9v7e8rb6mutqtgr8tt2u.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.JUGOBADA"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
