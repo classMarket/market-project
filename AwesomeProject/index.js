@@ -7,6 +7,7 @@ import Main from './screen/View/Main';
 import BottomTab from './screen/View/Tab/BottomTab';
 import Profile from './screen/View/Profile';
 import ProfileDetail from './screen/View/Profile/ProfileDetail';
+import {ProfileProvider} from './screen/View/Profile';
 
 const Stack = createNativeStackNavigator();
 
@@ -40,4 +41,12 @@ function App() {
   );
 }
 
-AppRegistry.registerComponent(appName, () => App);
+function AppWithProvider() {
+  return (
+    <ProfileProvider>
+      <App />
+    </ProfileProvider>
+  );
+}
+
+AppRegistry.registerComponent(appName, () => AppWithProvider);
