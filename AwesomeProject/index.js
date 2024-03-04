@@ -29,13 +29,6 @@ function App() {
           }}
         />
         <Stack.Screen
-          name="프로필"
-          component={Profile}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
           name="프로필상세"
           component={ProfileDetail}
           options={{

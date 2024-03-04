@@ -122,6 +122,7 @@ export default function BottomTab() {
               />
             );
           },
+          headerShown: false,
         }}
       />
     </Tabs.Navigator>
