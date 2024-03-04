@@ -1,8 +1,12 @@
+import React, {useContext} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import PlainButton from '../ui-part/PlainButton';
+import {ProfileContext} from '../../screen/View/Profile';
 
-export default function ProfileMyPoint({point}: {point: number}) {
+export default function ProfileMyPoint() {
+  const {state} = useContext(ProfileContext);
+
   return (
     <View style={styles.container}>
       <View style={styles.top}>
@@ -11,26 +15,24 @@ export default function ProfileMyPoint({point}: {point: number}) {
           <Icon name="chevron-forward-outline" size={17} style={styles.icon} />
         </View>
         <View>
-          <Text style={styles.point}>{`${point} P`}</Text>
+          <Text style={styles.point}>{`${state.profile.point} P`}</Text>
         </View>
       </View>
       <View style={styles.buttonContainer}>
-        <View style={{flex: 1, marginHorizontal: 2}}>
-          <PlainButton
-            text="사용"
-            onPressHandler={() => {}}
-            fullWidth={true}
-            paddingVertical={7}
-          />
-        </View>
-        <View style={{flex: 1, marginHorizontal: 2}}>
-          <PlainButton
-            text="출금"
-            onPressHandler={() => {}}
-            fullWidth={true}
-            paddingVertical={7}
-          />
-        </View>
+        <PlainButton
+          text="사용"
+          onPressHandler={() => {}}
+          fullWidth={true}
+          paddingVertical={7}
+          style={styles.button}
+        />
+        <PlainButton
+          text="출금"
+          onPressHandler={() => {}}
+          fullWidth={true}
+          paddingVertical={7}
+          style={styles.button}
+        />
       </View>
     </View>
   );
@@ -39,6 +41,7 @@ export default function ProfileMyPoint({point}: {point: number}) {
 const styles = StyleSheet.create({
   container: {
     marginHorizontal: 21, // TODO:화면 크기에따라 동적으로 설정할지 확인
+    marginVertical: 15,
     borderWidth: 1,
     borderRadius: 8,
     borderColor: '#D8D8D8',
@@ -69,14 +72,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  button: {
-    backgroundColor: '#E5E5E5',
-    borderRadius: 4,
-    paddingVertical: 7,
-    alignItems: 'center',
-  },
-  buttonLabel: {
-    fontSize: 12,
-    lineHeight: 18,
-  },
+  button: {flex: 1, marginHorizontal: 2},
 });

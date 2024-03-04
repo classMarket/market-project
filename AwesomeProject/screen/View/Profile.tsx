@@ -1,64 +1,104 @@
-import React, {useEffect} from 'react';
+import React, {
+  ReactNode,
+  createContext,
+  useCallback,
+  useContext,
+  useReducer,
+} from 'react';
 import {
   Dimensions,
+  FlatList,
   SafeAreaView,
   ScrollView,
   StyleSheet,
-  Text,
-  View,
 } from 'react-native';
+import {useFocusEffect} from '@react-navigation/native';
+import {
+  MyProfileStateType,
+  MyProfileType,
+  MyProductType,
+} from '../../type/profile';
+import {
+  ProfileEmailRegisterRequired,
+  ProfileHeader,
+  ProfileMyPoint,
+  ProfileSection,
+  ProfileSectionLine,
+  ProfileSectionNode,
+  ProfileSummary,
+} from '../../component/profile';
 import Icon from 'react-native-vector-icons/Ionicons';
-import ProfileMyPoint from '../../component/profile/ProfileMyPoint';
-import ProfileSummary from '../../component/profile/ProfileSummary';
-import ProfileSection from '../../component/profile/ProfileSection';
-import ProfileSectionLine from '../../component/profile/ProfileSectionLine';
-import ProfileSectionNode from '../../component/profile/ProfileSectionNode';
-import BlankSpace from '../../component/ui-part/BlankSpace';
-import PlainButton from '../../component/ui-part/PlainButton';
+import {PlainButton} from '../../component/ui-part';
+import {getMyProfile, getMyProducts} from '../../api/profile';
 
-function ProfileHeader() {
-  return (
-    <View style={styles.headerContainer}>
-      <View style={styles.labelContainer}>
-        <Text style={styles.label}>내 프로필</Text>
-      </View>
-      <View>
-        <Icon name="settings-outline" size={24} />
-      </View>
-    </View>
-  );
-}
+const profileActivities = [
+  {
+    label: '관심목록',
+    icon: ({iconSize}: {iconSize: number}) => (
+      <Icon name="heart-outline" size={iconSize} />
+    ),
+    onPressHandler: () => {
+      console.log('관심목록');
+    },
+  },
+  {
+    label: '구매내역',
+    icon: ({iconSize}: {iconSize: number}) => (
+      <Icon name="cart-outline" size={iconSize} />
+    ),
+    onPressHandler: () => {
+      console.log('구매내역');
+    },
+  },
+  {
+    label: '등록내역',
+    icon: ({iconSize}: {iconSize: number}) => (
+      <Icon name="list-outline" size={iconSize} />
+    ),
+    onPressHandler: () => {
+      console.log('등록내역');
+    },
+  },
+  {
+    label: '나의 모임',
+    icon: ({iconSize}: {iconSize: number}) => (
+      <Icon name="people-outline" size={iconSize} />
+    ),
+    onPressHandler: () => {
+      console.log('나의 모임');
+    },
+  },
+];
+
+const windowWidth = Dimensions.get('window').width;
+
+const goProfileDetail = (navigation: any) => {
+  navigation.navigate('프로필상세');
+};
 
 export default function Profile({navigation, _route}: any) {
-  const dummyData = {
-    profile: {
-      ratings: 10,
-      products_count: 10,
-      meetings_count: 10,
-      profile_image_url: '',
-      point: 10,
-      email_authentication_status: false,
-    },
-    settings: {
-      notification: {
-        chat: false,
-        meeting: false,
-        notice: false,
-      },
-    },
-  };
+  const {state, dispatch} = useContext(ProfileContext);
 
-  console.log(dummyData);
+  useFocusEffect(
+    useCallback(() => {
+      console.log('프로필 페이지 포커스');
 
-  const windowWidth = Dimensions.get('window').width;
+      const fetchMyProfile = async () => {
+        const myProfile = await getMyProfile();
 
-  useEffect(() => {
-    console.log('프로필 Page Call');
-  }, []);
+        dispatch({type: 'SET_MY_PROFILE', newProfile: myProfile});
+      };
 
-  const goProfileDetail = () => {
-    navigation.navigate('프로필상세');
-  };
+      const fetchMyProducts = async () => {
+        const myProducts = await getMyProducts();
+
+        dispatch({type: 'SET_MY_PRODUCTS', newProducts: myProducts});
+      };
+
+      fetchMyProfile();
+      fetchMyProducts();
+    }, [dispatch]),
+  );
 
   return (
     <SafeAreaView style={styles.container}>
@@ -69,70 +109,27 @@ export default function Profile({navigation, _route}: any) {
           rightButton={
             <PlainButton
               text="프로필 보기"
-              onPressHandler={goProfileDetail}
+              onPressHandler={() => goProfileDetail(navigation)}
               paddingVertical={4}
               paddingHorizontal={8}
             />
           }
         />
-        <ProfileMyPoint point={dummyData.profile.point} />
+
+        <ProfileMyPoint />
+
+        {!state.profile.registeredEmailStatus && (
+          <ProfileEmailRegisterRequired />
+        )}
+
         <ProfileSection title={'활동'}>
           <ProfileSectionLine />
-          <ProfileSectionNode
-            icon={({iconSize}) => <Icon name="heart-outline" size={iconSize} />}
-            label="관심목록"
-            onPressHandler={() => {
-              console.log('관심목록');
-            }}
-          />
-          <ProfileSectionLine />
-          <ProfileSectionNode
-            icon={({iconSize}) => <Icon name="cart-outline" size={iconSize} />}
-            label="구매내역"
-            onPressHandler={() => {
-              console.log('구매내역');
-            }}
-          />
-          <ProfileSectionLine />
-          <ProfileSectionNode
-            icon={({iconSize}) => <Icon name="list-outline" size={iconSize} />}
-            label="등록내역"
-            onPressHandler={() => {
-              console.log('등록내역');
-            }}
-          />
-          <ProfileSectionLine />
-          <ProfileSectionNode
-            icon={({iconSize}) => (
-              <Icon name="people-outline" size={iconSize} />
-            )}
-            label="나의 모임"
-            onPressHandler={() => {
-              console.log('나의 모임');
-            }}
-          />
-        </ProfileSection>
-        <BlankSpace height={6} color="#D9D9D9" />
-        <ProfileSection title={'앱알림'}>
-          <ProfileSectionLine />
-          <ProfileSectionNode
-            icon={({iconSize}) => (
-              <Icon name="chatbubbles-outline" size={iconSize} />
-            )}
-            label="채팅 알림"
-            onPressHandler={() => {
-              console.log('채팅 알림');
-            }}
-          />
-          <ProfileSectionLine />
-          <ProfileSectionNode
-            icon={({iconSize}) => (
-              <Icon name="pricetags-outline" size={iconSize} />
-            )}
-            label="카테고리 알림"
-            onPressHandler={() => {
-              console.log('카테고리 알림');
-            }}
+          <FlatList
+            data={profileActivities}
+            renderItem={({item}) => <ProfileSectionNode {...item} />}
+            ItemSeparatorComponent={ProfileSectionLine}
+            scrollEnabled={false}
+            keyExtractor={item => item.label}
           />
         </ProfileSection>
       </ScrollView>
@@ -147,18 +144,47 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'white',
   },
-  headerContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingVertical: 17,
-    paddingHorizontal: 21,
-  },
-  labelContainer: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  label: {
-    fontSize: 16,
-    fontWeight: '700',
-  },
 });
+
+/** 리듀서 정의 */
+const initialState: MyProfileStateType = {
+  profile: {} as MyProfileType,
+  products: [] as MyProductType[],
+};
+
+type ProfileAction =
+  | {type: 'SET_MY_PROFILE'; newProfile: MyProfileType}
+  | {type: 'SET_MY_PRODUCTS'; newProducts: MyProductType[]};
+
+export const ProfileContext = createContext<{
+  state: MyProfileStateType;
+  dispatch: React.Dispatch<ProfileAction>;
+}>({
+  state: initialState,
+  dispatch: () => null,
+});
+
+export const profileReducer = (
+  state: MyProfileStateType,
+  action: ProfileAction,
+): MyProfileStateType => {
+  switch (action.type) {
+    case 'SET_MY_PROFILE':
+      return {...state, profile: action.newProfile};
+    case 'SET_MY_PRODUCTS':
+      return {...state, products: action.newProducts};
+    default:
+      return state;
+  }
+};
+
+/** 프로바이더 정의 */
+export const ProfileProvider = ({children}: {children: ReactNode}) => {
+  const [state, dispatch] = useReducer(profileReducer, initialState);
+
+  return (
+    <ProfileContext.Provider value={{state, dispatch}}>
+      {children}
+    </ProfileContext.Provider>
+  );
+};

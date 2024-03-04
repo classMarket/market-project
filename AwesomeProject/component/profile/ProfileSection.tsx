@@ -13,7 +13,6 @@ export default function ProfileSection({
   return (
     <View style={styles.container}>
       <View>
-        <BlankSpace height={42} />
         <View>
           <ProfileSectionTitle>{title}</ProfileSectionTitle>
         </View>

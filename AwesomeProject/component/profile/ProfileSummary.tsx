@@ -1,5 +1,6 @@
-import {ReactNode} from 'react';
+import React, {ReactNode, useContext} from 'react';
 import {View, Text, Image, StyleSheet} from 'react-native';
+import {ProfileContext} from '../../screen/View/Profile';
 
 export default function ProfileSummary({
   detailShown = false,
@@ -8,6 +9,12 @@ export default function ProfileSummary({
   detailShown?: boolean;
   rightButton: ReactNode;
 }) {
+  const {state} = useContext(ProfileContext);
+
+  if (state.profile.nickname === undefined) {
+    return null;
+  }
+
   return (
     <View style={styles.container}>
       <View>
@@ -23,13 +30,17 @@ export default function ProfileSummary({
             paddingVertical: detailShown ? 0 : 8,
           },
         ]}>
-        <Text style={styles.nickname}>닉네임</Text>
+        <Text style={styles.nickname}>{state.profile.nickname}</Text>
 
         {detailShown && (
           <View style={{flexDirection: 'row'}}>
-            <Text style={styles.ratings}>평점 0.0</Text>
-            <Text style={styles.productCount}>등록상품 3</Text>
-            <Text style={styles.meetingCount}>모임활동 1</Text>
+            {false && <Text style={styles.ratings}>평점</Text>}
+            <Text style={styles.productCount}>
+              등록상품 {state.profile.registeredGoods}
+            </Text>
+            <Text style={styles.meetingCount}>
+              모임활동 {state.profile.meetingNum}
+            </Text>
           </View>
         )}
       </View>
@@ -43,7 +54,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 21, // TODO:화면 크기에따라 동적으로 설정할지 확인
     flexDirection: 'row',
     marginTop: 14,
-    marginBottom: 21,
+    marginBottom: 6,
   },
   profile_image: {
     width: 42,

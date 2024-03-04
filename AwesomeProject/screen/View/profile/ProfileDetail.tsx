@@ -1,61 +1,49 @@
-import React, {useEffect} from 'react';
+import React, {useContext} from 'react';
+import {Dimensions, SafeAreaView, ScrollView, StyleSheet} from 'react-native';
+import {ProfileContext} from '../Profile';
 import {
-  Dimensions,
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
-import ProfileSummary from '../../../component/profile/ProfileSummary';
-import PlainButton from '../../../component/ui-part/PlainButton';
-import TabView from '../../../component/ui-part/TabView';
-import ProfileMyProductView from '../../../component/profile/ProfileMyProductView';
+  ProfileMyProductList,
+  ProfileDetailHeader,
+  ProfileSummary,
+} from '../../../component/profile';
+import {PlainButton, TabView} from '../../../component/ui-part';
+import {MyProductType} from '../../../type/profile';
 
-function DummyView() {
-  return <View></View>;
-}
+const tabsByProducts = (products: MyProductType[]) => [
+  {
+    title: '등록상품',
+    body: (
+      <ProfileMyProductList
+        products={products.filter(
+          product => product.tradingStatus !== '거래완료',
+        )}
+      />
+    ),
+  },
+  {
+    title: '거래내역',
+    body: (
+      <ProfileMyProductList
+        products={products.filter(
+          product => product.tradingStatus === '거래완료',
+        )}
+      />
+    ),
+  },
+];
 
-function ProfileDetailScreenHeader({goProfile}: {goProfile: () => void}) {
-  return (
-    <View style={styles.headerContainer}>
-      <View style={{flex: 1}}>
-        <TouchableOpacity onPress={goProfile}>
-          <Icon
-            name="chevron-back-outline"
-            size={24}
-            style={{lineHeight: 24}}
-          />
-        </TouchableOpacity>
-      </View>
-      <View>
-        <Icon name="share-outline" size={24} />
-      </View>
-    </View>
-  );
-}
+const goProfile = (navigation: any) => {
+  navigation.navigate('프로필');
+};
+
+const windowWidth = Dimensions.get('window').width;
 
 export default function ProfileDetail({navigation, _route}: any) {
-  const windowWidth = Dimensions.get('window').width;
-
-  useEffect(() => {
-    console.log('프로필 디테일 Page Call');
-  }, []);
-
-  const goProfile = () => {
-    navigation.navigate('프로필');
-  };
-
-  const tabs = [
-    {title: '등록상품', body: <ProfileMyProductView />},
-    {title: '거래내역', body: <DummyView />},
-    {title: '모임활동', body: <DummyView />},
-  ];
+  const {state} = useContext(ProfileContext);
 
   return (
     <SafeAreaView style={styles.container}>
-      <ProfileDetailScreenHeader goProfile={goProfile} />
+      <ProfileDetailHeader goProfile={() => goProfile(navigation)} />
       <ScrollView style={{width: windowWidth}}>
         <ProfileSummary
           rightButton={
@@ -67,7 +55,7 @@ export default function ProfileDetail({navigation, _route}: any) {
             />
           }
         />
-        <TabView tabs={tabs} />
+        <TabView tabs={tabsByProducts(state.products)} />
       </ScrollView>
     </SafeAreaView>
   );
@@ -79,13 +67,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'white',
-  },
-  headerContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    borderBottomWidth: 1,
-    borderBottomColor: '#DDDDDD',
-    paddingVertical: 14,
-    paddingHorizontal: 21,
   },
 });

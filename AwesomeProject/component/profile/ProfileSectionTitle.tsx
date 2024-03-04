@@ -1,4 +1,4 @@
-import {ReactNode} from 'react';
+import React, {ReactNode} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
 export default function ProfileSectionTitle({children}: {children: ReactNode}) {

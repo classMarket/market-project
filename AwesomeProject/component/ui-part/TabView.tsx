@@ -24,6 +24,7 @@ export default function TabView({tabs}: {tabs: TabType[]}) {
       <View style={{flexDirection: 'row'}}>
         {tabs.map(({title}) => (
           <View
+            key={title}
             style={[
               {
                 flex: 1,

@@ -8,7 +8,7 @@ export default function Photo() {
         borderRadius: 14,
         width: 80,
         height: 80,
-        margin: 6,
-      }}></View>
+      }}
+    />
   );
 }
