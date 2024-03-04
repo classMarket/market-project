@@ -1,18 +1,24 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {BlankSpace} from '../ui-part';
 
 export default function ProfileEmailRegisterRequired() {
   return (
     <View style={styles.emailStatusContainer}>
       <View style={styles.row}>
-        <Icon name="alert-circle" size={24} color="red" />
+        <Icon name="alert-outline" size={24} color="red" />
         <Text style={styles.emailStatusTitle}>이메일 인증하기</Text>
-        <Icon name="chevron-forward-outline" size={12} color="red" />
+        <Icon name="chevron-right" size={12} color="red" />
       </View>
       <BlankSpace height={7} />
       <View style={styles.row}>
+        <Icon
+          name="information"
+          size={12}
+          style={styles.icon}
+          color="#9C9C9C"
+        />
         <Text style={styles.emailStatusDescription}>
           이메일 인증 후에 등록 및 거래가 가능합니다
         </Text>
@@ -47,5 +53,8 @@ const styles = StyleSheet.create({
     fontSize: 12,
     lineHeight: 21,
     marginLeft: 7,
+  },
+  icon: {
+    lineHeight: 21,
   },
 });

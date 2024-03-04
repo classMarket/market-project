@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import PlainButton from '../ui-part/PlainButton';
 import {ProfileContext} from '../../screen/View/Profile';
 
@@ -12,7 +12,7 @@ export default function ProfileMyPoint() {
       <View style={styles.top}>
         <View style={styles.myPoint}>
           <Text style={styles.myPointLabel}>내 포인트</Text>
-          <Icon name="chevron-forward-outline" size={17} style={styles.icon} />
+          <Icon name="chevron-right" size={17} style={styles.icon} />
         </View>
         <View>
           <Text style={styles.point}>{`${state.profile.point} P`}</Text>

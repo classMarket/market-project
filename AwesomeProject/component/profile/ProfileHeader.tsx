@@ -9,7 +9,7 @@ export default function ProfileHeader() {
         <Text style={styles.label}>내 프로필</Text>
       </View>
       <View>
-        <Icon name="settings-outline" size={24} />
+        <Icon name="cog-outline" size={24} />
       </View>
     </View>
   );

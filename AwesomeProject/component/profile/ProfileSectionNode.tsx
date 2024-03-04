@@ -1,6 +1,6 @@
 import React, {ReactNode} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default function ProfileSectionNode({
   icon,
@@ -21,11 +21,7 @@ export default function ProfileSectionNode({
         <Text style={styles.label}>{label}</Text>
       </View>
       <View>
-        <Icon
-          name="chevron-forward-outline"
-          size={17}
-          style={{lineHeight: 19}}
-        />
+        <Icon name="chevron-right" size={17} style={{lineHeight: 19}} />
       </View>
     </TouchableOpacity>
   );

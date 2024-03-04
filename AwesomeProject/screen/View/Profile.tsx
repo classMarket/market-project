@@ -27,7 +27,7 @@ import {
   ProfileSectionNode,
   ProfileSummary,
 } from '../../component/profile';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {PlainButton} from '../../component/ui-part';
 import {getMyProfile, getMyProducts} from '../../api/profile';
 
@@ -53,7 +53,7 @@ const profileActivities = [
   {
     label: '등록내역',
     icon: ({iconSize}: {iconSize: number}) => (
-      <Icon name="list-outline" size={iconSize} />
+      <Icon name="view-list-outline" size={iconSize} />
     ),
     onPressHandler: () => {
       console.log('등록내역');
@@ -62,7 +62,7 @@ const profileActivities = [
   {
     label: '나의 모임',
     icon: ({iconSize}: {iconSize: number}) => (
-      <Icon name="people-outline" size={iconSize} />
+      <Icon name="account-multiple-outline" size={iconSize} />
     ),
     onPressHandler: () => {
       console.log('나의 모임');
