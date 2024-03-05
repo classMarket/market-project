@@ -1,4 +1,5 @@
 <resources>
-    <string name="app_name">AwesomeProject</string>
+    <string name="app_name">JUGOBADA</string>
     <string name="kakao_app_key">be6a5e056be7776ace10a8bea4810f69</string>
+    <string name="naver_client_id">rDpXWEFApuctbXVWBGHR</string>
 </resources>

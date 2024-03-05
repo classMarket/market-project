@@ -26,5 +26,5 @@ function App() {
     </NavigationContainer>
   );
 }
-
+console.log(appName)
 AppRegistry.registerComponent(appName, () => App);

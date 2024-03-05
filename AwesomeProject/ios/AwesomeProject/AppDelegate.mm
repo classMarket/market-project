@@ -8,7 +8,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-  self.moduleName = @"AwesomeProject";
+  self.moduleName = @"JUGOBADA";
   // You can add your custom initial props in the dictionary below.
   // They will be passed down to the ViewController used by React Native.
   self.initialProps = @{};
@@ -23,7 +23,7 @@
   }
   
   // for naver login
-  if ([url.scheme isEqualToString:@"your_apps_urlscheme"]) {
+  if ([url.scheme isEqualToString:@"org.reactjs.native.example.JUGOBADA"]) {
     return [[NaverThirdPartyLoginConnection getSharedInstance] application:app openURL:url options:options];
   }
 

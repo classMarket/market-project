@@ -1,4 +1,4 @@
-package com.awesomeproject
+package com.JUGOBADA
 
 import android.app.Application
 import android.content.pm.PackageInfo
@@ -17,7 +17,6 @@ import com.facebook.react.flipper.ReactNativeFlipper
 import com.facebook.soloader.SoLoader
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
-
 
 class MainApplication : Application(), ReactApplication {
 
