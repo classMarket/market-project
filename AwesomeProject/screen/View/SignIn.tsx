@@ -7,7 +7,7 @@ import { getStatusBarHeight } from 'react-native-status-bar-height';
 import NaverLogin from '@react-native-seoul/naver-login';
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 
-export default function Main({navigation} : any) {
+export default function SignIn({navigation} : any) {
 
     const [kakaoToken, setKakaoToken] = useState('');
     const [naverToken, setNaverToken] = useState('');

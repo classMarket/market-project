@@ -3,9 +3,8 @@ import {AppRegistry} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {name as appName} from './app.json';
-import Main from './screen/View/Main';
+import SignIn from './screen/View/SignIn';
 import BottomTab from './screen/View/Tab/BottomTab';
-import Profile from './screen/View/Profile';
 import ProfileDetail from './screen/View/Profile/ProfileDetail';
 import {ProfileProvider} from './screen/View/Profile';
 
@@ -16,8 +15,8 @@ function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
-          name="Main"
-          component={Main}
+          name="SignIn"
+          component={SignIn}
           options={{
             headerShown: false,
           }}

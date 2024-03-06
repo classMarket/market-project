@@ -10,7 +10,8 @@ import Class from '../View/Class';
 import Post from '../View/Post';
 import Chat from '../View/Chat';
 import Profile from '../View/Profile';
-import Main from '../View/Main';
+import SignIn from '../View/SignIn';
+import React from "react";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -19,8 +20,8 @@ const Tab = createBottomTabNavigator();
 export default function Navigation() {
   return (
     <NavigationContainer> 
-      <Stack.Navigator initialRouteName="Main">
-        <Stack.Screen name="Main" component={Main} />
+      <Stack.Navigator initialRouteName="SignIn">
+        <Stack.Screen name="SignIn" component={SignIn} />
       </Stack.Navigator>
       <Tab.Navigator>
             <Tab.Screen name="홈" component={Home} options= {{
