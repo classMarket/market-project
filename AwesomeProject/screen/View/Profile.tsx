@@ -1,351 +1,135 @@
-import React, {useEffect, ReactNode} from 'react';
+import React, {
+  ReactNode,
+  createContext,
+  useCallback,
+  useContext,
+  useReducer,
+} from 'react';
 import {
-  DimensionValue,
   Dimensions,
-  Image,
+  FlatList,
   SafeAreaView,
   ScrollView,
   StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import {useFocusEffect} from '@react-navigation/native';
+import {
+  MyProfileStateType,
+  MyProfileType,
+  MyProductType,
+} from '../../type/profile';
+import {
+  ProfileEmailRegisterRequired,
+  ProfileHeader,
+  ProfileMyPoint,
+  ProfileSection,
+  ProfileSectionLine,
+  ProfileSectionNode,
+  ProfileSummary,
+} from '../../component/profile';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {PlainButton} from '../../component/ui-part';
+import {getMyProfile, getMyProducts} from '../../api/profile';
 
-function ProfileScreenHeader() {
-  return (
-    <View
-      style={{
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        paddingVertical: 17,
-        paddingHorizontal: 21,
-      }}>
-      <View style={{flex: 1, alignItems: 'center'}}>
-        <Text style={{fontSize: 16, fontWeight: '700'}}>내 프로필</Text>
-      </View>
-      <View>
-        <Icon name="settings-outline" size={24} />
-      </View>
-    </View>
-  );
-}
+const profileActivities = [
+  {
+    label: '관심목록',
+    icon: ({iconSize}: {iconSize: number}) => (
+      <Icon name="heart-outline" size={iconSize} />
+    ),
+    onPressHandler: () => {
+      console.log('관심목록');
+    },
+  },
+  {
+    label: '구매내역',
+    icon: ({iconSize}: {iconSize: number}) => (
+      <Icon name="cart-outline" size={iconSize} />
+    ),
+    onPressHandler: () => {
+      console.log('구매내역');
+    },
+  },
+  {
+    label: '등록내역',
+    icon: ({iconSize}: {iconSize: number}) => (
+      <Icon name="view-list-outline" size={iconSize} />
+    ),
+    onPressHandler: () => {
+      console.log('등록내역');
+    },
+  },
+  {
+    label: '나의 모임',
+    icon: ({iconSize}: {iconSize: number}) => (
+      <Icon name="account-multiple-outline" size={iconSize} />
+    ),
+    onPressHandler: () => {
+      console.log('나의 모임');
+    },
+  },
+];
 
-function ViewProfileButton({onPressHandler}: {onPressHandler: () => void}) {
-  return (
-    <TouchableOpacity
-      style={{
-        backgroundColor: '#E5E5E5',
-        borderRadius: 4,
-        paddingVertical: 4,
-        paddingHorizontal: 8,
-      }}
-      onPress={onPressHandler}>
-      <Text style={{fontSize: 12, lineHeight: 18}}>프로필 보기</Text>
-    </TouchableOpacity>
-  );
-}
+const windowWidth = Dimensions.get('window').width;
 
-function ProfileSummary({
-  detailShown = false,
-  rightButton,
-}: {
-  detailShown?: boolean;
-  rightButton: ReactNode;
-}) {
-  return (
-    <View
-      style={{
-        marginHorizontal: 21, // TODO:화면 크기에따라 동적으로 설정할지 확인
-      }}>
-      <View style={{flexDirection: 'row', marginTop: 14, marginBottom: 21}}>
-        <View>
-          <Image
-            source={require('../../assets/Profile_active.png')}
-            style={{width: 42, height: 42, borderRadius: 21, borderWidth: 1}}
-          />
-        </View>
-        <View
-          style={{
-            flex: 1,
-            marginLeft: 11,
-            paddingVertical: detailShown ? 0 : 8,
-          }}>
-          <Text style={{fontSize: 16, lineHeight: 24, fontWeight: '700'}}>
-            닉네임
-          </Text>
-
-          {detailShown && (
-            <View style={{flexDirection: 'row'}}>
-              <Text style={{fontSize: 12, lineHeight: 18, fontWeight: '400'}}>
-                평점 0.0
-              </Text>
-              <Text
-                style={{
-                  fontSize: 12,
-                  lineHeight: 18,
-                  fontWeight: '400',
-                  marginLeft: 7,
-                }}>
-                등록상품 3
-              </Text>
-              <Text
-                style={{
-                  fontSize: 12,
-                  lineHeight: 18,
-                  fontWeight: '400',
-                  marginLeft: 7,
-                }}>
-                모임활동 1
-              </Text>
-            </View>
-          )}
-        </View>
-        <View style={{marginTop: 7}}>{rightButton}</View>
-      </View>
-    </View>
-  );
-}
-
-function ProfileMyPoint() {
-  const windowWidth = Dimensions.get('window').width;
-
-  return (
-    <View
-      style={{
-        marginHorizontal: 21, // TODO:화면 크기에따라 동적으로 설정할지 확인
-      }}>
-      <View
-        style={{
-          borderWidth: 1,
-          borderRadius: 8,
-          borderColor: '#D8D8D8',
-          paddingHorizontal: 17,
-          paddingVertical: 19,
-        }}>
-        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-          <View style={{flexDirection: 'row', marginBottom: 15}}>
-            <Text style={{fontSize: 16, lineHeight: 19, fontWeight: '900'}}>
-              내 포인트
-            </Text>
-            <Icon
-              name="chevron-forward-outline"
-              size={17}
-              style={{lineHeight: 19}}
-            />
-          </View>
-          <View>
-            <Text style={{fontSize: 20, fontWeight: '700'}}>2,024 P</Text>
-          </View>
-        </View>
-        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-          <View>
-            <View
-              style={{
-                backgroundColor: '#E5E5E5',
-                borderRadius: 4,
-                paddingVertical: 7,
-                width: windowWidth / 2 - 42,
-                alignItems: 'center',
-              }}>
-              <Text style={{fontSize: 12, lineHeight: 18, flex: 1}}>사용</Text>
-            </View>
-          </View>
-          <View>
-            <View
-              style={{
-                backgroundColor: '#E5E5E5',
-                borderRadius: 4,
-                paddingVertical: 7,
-                width: windowWidth / 2 - 42,
-                alignItems: 'center',
-              }}>
-              <Text style={{fontSize: 12, lineHeight: 18}}>출금</Text>
-            </View>
-          </View>
-        </View>
-      </View>
-    </View>
-  );
-}
-
-function ProfileSection({
-  children,
-  title,
-}: {
-  children: ReactNode;
-  title: string;
-}) {
-  return (
-    <View
-      style={{
-        marginHorizontal: 21, // TODO:화면 크기에따라 동적으로 설정할지 확인
-      }}>
-      <View>
-        <BlankSpace height={42} />
-        <View>
-          <ProfileSectionTitle>{title}</ProfileSectionTitle>
-        </View>
-        {children}
-        <BlankSpace height={42} />
-      </View>
-    </View>
-  );
-}
-
-function ProfileSectionTitle({children}: {children: ReactNode}) {
-  return (
-    <View style={{marginBottom: 24}}>
-      <Text style={{fontSize: 20, lineHeight: 30, fontWeight: '900'}}>
-        {children}
-      </Text>
-    </View>
-  );
-}
-
-function ProfileSectionNode({
-  icon,
-  label,
-  onPressHandler,
-}: {
-  icon: ({iconSize}: {iconSize: number}) => ReactNode;
-  label: string;
-  onPressHandler: () => void;
-}) {
-  const iconSize = 16;
-  return (
-    <TouchableOpacity
-      onPress={onPressHandler}
-      style={{
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginVertical: 18,
-      }}>
-      <View>
-        <Text style={{lineHeight: 21}}>{icon({iconSize})}</Text>
-      </View>
-      <View style={{flex: 1}}>
-        <Text
-          style={{
-            fontSize: 14,
-            lineHeight: 21,
-            marginLeft: 8,
-            fontWeight: '400',
-          }}>
-          {label}
-        </Text>
-      </View>
-      <View>
-        <Icon
-          name="chevron-forward-outline"
-          size={17}
-          style={{lineHeight: 19}}
-        />
-      </View>
-    </TouchableOpacity>
-  );
-}
-
-function ProfileSectionLine() {
-  return (
-    <View style={{backgroundColor: '#cccccc', width: '100%', height: 2}}></View>
-  );
-}
-function BlankSpace({
-  width = '100%',
-  height = 24,
-  color = 'white',
-}: {
-  width?: DimensionValue;
-  height?: DimensionValue;
-  color?: string;
-}) {
-  return (
-    <View style={{display: 'flex', backgroundColor: color}}>
-      <View style={[{flex: 1, width, height}]}>
-        <Text> </Text>
-      </View>
-    </View>
-  );
-}
+const goProfileDetail = (navigation: any) => {
+  navigation.navigate('프로필상세');
+};
 
 export default function Profile({navigation, _route}: any) {
-  const windowWidth = Dimensions.get('window').width;
+  const {state, dispatch} = useContext(ProfileContext);
 
-  useEffect(() => {
-    console.log('프로필 Page Call');
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      console.log('프로필 페이지 포커스');
 
-  const goProfileDetail = () => {
-    navigation.navigate('프로필상세');
-  };
+      const fetchMyProfile = async () => {
+        const myProfile = await getMyProfile();
+
+        dispatch({type: 'SET_MY_PROFILE', newProfile: myProfile});
+      };
+
+      const fetchMyProducts = async () => {
+        const myProducts = await getMyProducts();
+
+        dispatch({type: 'SET_MY_PRODUCTS', newProducts: myProducts});
+      };
+
+      fetchMyProfile();
+      fetchMyProducts();
+    }, [dispatch]),
+  );
 
   return (
-    <SafeAreaView style={styles.SafeAreaView}>
-      <ProfileScreenHeader />
+    <SafeAreaView style={styles.container}>
+      <ProfileHeader />
       <ScrollView style={{width: windowWidth}}>
         <ProfileSummary
           detailShown={true}
-          rightButton={<ViewProfileButton onPressHandler={goProfileDetail} />}
+          rightButton={
+            <PlainButton
+              text="프로필 보기"
+              onPressHandler={() => goProfileDetail(navigation)}
+              paddingVertical={4}
+              paddingHorizontal={8}
+            />
+          }
         />
+
         <ProfileMyPoint />
+
+        {!state.profile.registeredEmailStatus && (
+          <ProfileEmailRegisterRequired />
+        )}
+
         <ProfileSection title={'활동'}>
           <ProfileSectionLine />
-          <ProfileSectionNode
-            icon={({iconSize}) => <Icon name="heart-outline" size={iconSize} />}
-            label="관심목록"
-            onPressHandler={() => {
-              console.log('관심목록');
-            }}
-          />
-          <ProfileSectionLine />
-          <ProfileSectionNode
-            icon={({iconSize}) => <Icon name="cart-outline" size={iconSize} />}
-            label="구매내역"
-            onPressHandler={() => {
-              console.log('구매내역');
-            }}
-          />
-          <ProfileSectionLine />
-          <ProfileSectionNode
-            icon={({iconSize}) => <Icon name="list-outline" size={iconSize} />}
-            label="등록내역"
-            onPressHandler={() => {
-              console.log('등록내역');
-            }}
-          />
-          <ProfileSectionLine />
-          <ProfileSectionNode
-            icon={({iconSize}) => (
-              <Icon name="people-outline" size={iconSize} />
-            )}
-            label="나의 모임"
-            onPressHandler={() => {
-              console.log('나의 모임');
-            }}
-          />
-        </ProfileSection>
-        <BlankSpace height={6} color="#D9D9D9" />
-        <ProfileSection title={'앱알림'}>
-          <ProfileSectionLine />
-          <ProfileSectionNode
-            icon={({iconSize}) => (
-              <Icon name="chatbubbles-outline" size={iconSize} />
-            )}
-            label="채팅 알림"
-            onPressHandler={() => {
-              console.log('채팅 알림');
-            }}
-          />
-          <ProfileSectionLine />
-          <ProfileSectionNode
-            icon={({iconSize}) => (
-              <Icon name="pricetags-outline" size={iconSize} />
-            )}
-            label="카테고리 알림"
-            onPressHandler={() => {
-              console.log('카테고리 알림');
-            }}
+          <FlatList
+            data={profileActivities}
+            renderItem={({item}) => <ProfileSectionNode {...item} />}
+            ItemSeparatorComponent={ProfileSectionLine}
+            scrollEnabled={false}
+            keyExtractor={item => item.label}
           />
         </ProfileSection>
       </ScrollView>
@@ -354,7 +138,7 @@ export default function Profile({navigation, _route}: any) {
 }
 
 const styles = StyleSheet.create({
-  SafeAreaView: {
+  container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
@@ -362,4 +146,45 @@ const styles = StyleSheet.create({
   },
 });
 
-export {ProfileSummary, ProfileSectionLine};
+/** 리듀서 정의 */
+const initialState: MyProfileStateType = {
+  profile: {} as MyProfileType,
+  products: [] as MyProductType[],
+};
+
+type ProfileAction =
+  | {type: 'SET_MY_PROFILE'; newProfile: MyProfileType}
+  | {type: 'SET_MY_PRODUCTS'; newProducts: MyProductType[]};
+
+export const ProfileContext = createContext<{
+  state: MyProfileStateType;
+  dispatch: React.Dispatch<ProfileAction>;
+}>({
+  state: initialState,
+  dispatch: () => null,
+});
+
+export const profileReducer = (
+  state: MyProfileStateType,
+  action: ProfileAction,
+): MyProfileStateType => {
+  switch (action.type) {
+    case 'SET_MY_PROFILE':
+      return {...state, profile: action.newProfile};
+    case 'SET_MY_PRODUCTS':
+      return {...state, products: action.newProducts};
+    default:
+      return state;
+  }
+};
+
+/** 프로바이더 정의 */
+export const ProfileProvider = ({children}: {children: ReactNode}) => {
+  const [state, dispatch] = useReducer(profileReducer, initialState);
+
+  return (
+    <ProfileContext.Provider value={{state, dispatch}}>
+      {children}
+    </ProfileContext.Provider>
+  );
+};
