@@ -1,10 +1,4 @@
-import React, {
-  ReactNode,
-  createContext,
-  useCallback,
-  useContext,
-  useReducer,
-} from 'react';
+import React, {useCallback} from 'react';
 import {
   Dimensions,
   FlatList,
@@ -13,11 +7,6 @@ import {
   StyleSheet,
 } from 'react-native';
 import {useFocusEffect} from '@react-navigation/native';
-import {
-  MyProfileStateType,
-  MyProfileType,
-  MyProductType,
-} from '../../type/profile';
 import {
   ProfileEmailRegisterRequired,
   ProfileHeader,
@@ -30,6 +19,7 @@ import {
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {PlainButton} from '../../component/ui-part';
 import {getMyProfile, getMyProducts} from '../../api/profile';
+import {useProfileStore} from '../../stores/profile';
 
 const profileActivities = [
   {
@@ -77,7 +67,7 @@ const goProfileDetail = (navigation: any) => {
 };
 
 export default function Profile({navigation, _route}: any) {
-  const {state, dispatch} = useContext(ProfileContext);
+  const {profile, setProfile, setProducts} = useProfileStore(state => state);
 
   useFocusEffect(
     useCallback(() => {
@@ -86,18 +76,18 @@ export default function Profile({navigation, _route}: any) {
       const fetchMyProfile = async () => {
         const myProfile = await getMyProfile();
 
-        dispatch({type: 'SET_MY_PROFILE', newProfile: myProfile});
+        setProfile(myProfile);
       };
 
       const fetchMyProducts = async () => {
         const myProducts = await getMyProducts();
 
-        dispatch({type: 'SET_MY_PRODUCTS', newProducts: myProducts});
+        setProducts(myProducts.content);
       };
 
       fetchMyProfile();
       fetchMyProducts();
-    }, [dispatch]),
+    }, [setProfile, setProducts]),
   );
 
   return (
@@ -118,9 +108,7 @@ export default function Profile({navigation, _route}: any) {
 
         <ProfileMyPoint />
 
-        {!state.profile.registeredEmailStatus && (
-          <ProfileEmailRegisterRequired />
-        )}
+        {!profile.registeredEmailStatus && <ProfileEmailRegisterRequired />}
 
         <ProfileSection title={'활동'}>
           <ProfileSectionLine />
