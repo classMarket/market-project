@@ -90,6 +90,10 @@ export default function Profile({navigation, _route}: any) {
     }, [setProfile, setProducts]),
   );
 
+  if (profile.nickname == undefined) {
+    return <SafeAreaView style={styles.container} />;
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <ProfileHeader />
