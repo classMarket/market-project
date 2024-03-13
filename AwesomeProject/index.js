@@ -41,12 +41,4 @@ function App() {
   );
 }
 
-function AppWithProvider() {
-  return (
-    <ProfileProvider>
-      <App />
-    </ProfileProvider>
-  );
-}
-
-AppRegistry.registerComponent(appName, () => AppWithProvider);
+AppRegistry.registerComponent(appName, () => App);
