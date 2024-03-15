@@ -1,6 +1,5 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {Dimensions, SafeAreaView, ScrollView, StyleSheet} from 'react-native';
-import {ProfileContext} from '../Profile';
 import {
   ProfileMyProductList,
   ProfileDetailHeader,
@@ -8,6 +7,7 @@ import {
 } from '../../../component/profile';
 import {PlainButton, TabView} from '../../../component/ui-part';
 import {MyProductType} from '../../../type/profile';
+import {useProfileStore} from '../../../stores/profile';
 
 const tabsByProducts = (products: MyProductType[]) => [
   {
@@ -39,7 +39,7 @@ const goProfile = (navigation: any) => {
 const windowWidth = Dimensions.get('window').width;
 
 export default function ProfileDetail({navigation, _route}: any) {
-  const {state} = useContext(ProfileContext);
+  const products = useProfileStore(state => state.products);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -55,7 +55,7 @@ export default function ProfileDetail({navigation, _route}: any) {
             />
           }
         />
-        <TabView tabs={tabsByProducts(state.products)} />
+        <TabView tabs={tabsByProducts(products)} />
       </ScrollView>
     </SafeAreaView>
   );

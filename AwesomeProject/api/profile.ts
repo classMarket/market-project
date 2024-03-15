@@ -1,40 +1,16 @@
-import {dummyProfile, dummyProducts} from '../dummy/profile';
-import {
-  MyProfileResponseType,
-  MyProductType,
-  MyProductsResponseType,
-} from '../type/profile';
+const API_ENDPOINT =
+  'https://41bc14e6-6403-4df7-81df-1cb7ef4693cc.mock.pstmn.io';
 
 const getMyProfile = async () => {
-  const dummyMyProfile: MyProfileResponseType = dummyProfile;
-
-  const dummyResponse: Promise<any> = new Promise((resolve, _reject) => {
-    console.log('getMyProfile', new Date());
-    resolve(dummyMyProfile);
-  })
-    .catch((error: any) => {
-      console.error(error);
-      return error;
-    })
-    .finally(() => {});
-
-  return await dummyResponse;
+  return await fetch(`${API_ENDPOINT}/market/profiles`)
+    .then(response => response.json())
+    .catch(console.error);
 };
 
 const getMyProducts = async () => {
-  const {content}: {content: MyProductType[]} =
-    dummyProducts as MyProductsResponseType;
-
-  const dummyResponse = new Promise<MyProductType[]>((resolve, _reject) => {
-    resolve(content);
-  })
-    .catch((error: any) => {
-      console.error(error);
-      return error;
-    })
-    .finally(() => {});
-
-  return await dummyResponse;
+  return await fetch(`${API_ENDPOINT}/market/profiles/detail`)
+    .then(response => response.json())
+    .catch(console.error);
 };
 
 export {getMyProfile, getMyProducts};

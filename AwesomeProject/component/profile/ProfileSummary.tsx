@@ -1,6 +1,6 @@
-import React, {ReactNode, useContext} from 'react';
+import React, {ReactNode} from 'react';
 import {View, Text, Image, StyleSheet} from 'react-native';
-import {ProfileContext} from '../../screen/View/Profile';
+import {useProfileStore} from '../../stores/profile';
 
 export default function ProfileSummary({
   detailShown = false,
@@ -9,9 +9,9 @@ export default function ProfileSummary({
   detailShown?: boolean;
   rightButton: ReactNode;
 }) {
-  const {state} = useContext(ProfileContext);
+  const profile = useProfileStore(state => state.profile);
 
-  if (state.profile.nickname === undefined) {
+  if (profile.nickname === undefined) {
     return null;
   }
 
@@ -30,16 +30,16 @@ export default function ProfileSummary({
             paddingVertical: detailShown ? 0 : 8,
           },
         ]}>
-        <Text style={styles.nickname}>{state.profile.nickname}</Text>
+        <Text style={styles.nickname}>{profile.nickname}</Text>
 
         {detailShown && (
           <View style={{flexDirection: 'row'}}>
             {false && <Text style={styles.ratings}>평점</Text>}
             <Text style={styles.productCount}>
-              등록상품 {state.profile.registeredGoods}
+              등록상품 {profile.registeredGoods}
             </Text>
             <Text style={styles.meetingCount}>
-              모임활동 {state.profile.meetingNum}
+              모임활동 {profile.meetingNum}
             </Text>
           </View>
         )}

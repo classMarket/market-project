@@ -1,11 +1,11 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import PlainButton from '../ui-part/PlainButton';
-import {ProfileContext} from '../../screen/View/Profile';
+import {useProfileStore} from '../../stores/profile';
 
 export default function ProfileMyPoint() {
-  const {state} = useContext(ProfileContext);
+  const profile = useProfileStore(state => state.profile);
 
   return (
     <View style={styles.container}>
@@ -15,7 +15,7 @@ export default function ProfileMyPoint() {
           <Icon name="chevron-right" size={17} style={styles.icon} />
         </View>
         <View>
-          <Text style={styles.point}>{`${state.profile.point} P`}</Text>
+          <Text style={styles.point}>{`${profile.point} P`}</Text>
         </View>
       </View>
       <View style={styles.buttonContainer}>

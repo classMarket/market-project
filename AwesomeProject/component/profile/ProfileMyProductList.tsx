@@ -30,7 +30,7 @@ export default function ProfileMyProductList({
         renderItem={({item}) => <ProfileMyProduct product={item} />}
         ItemSeparatorComponent={ProfileSectionLine}
         scrollEnabled={false}
-        keyExtractor={item => item.id.toString()}
+        keyExtractor={item => item.productName.toString()} // TODO: 서버가 id를 반환해야함
       />
     </View>
   );
